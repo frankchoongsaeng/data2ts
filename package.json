@@ -4,14 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "main": "ts-node --esm src/lib/grokker.ts",
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "grok": "ts-node --esm src/main.ts"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.5"
+    "typescript": "^5.2.2"
   }
 }
