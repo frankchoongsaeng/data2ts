@@ -1,16 +1,17 @@
 {
-  "name": "json2ts",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "example": "ts-node --esm src/example.ts"
-  },
-  "devDependencies": {
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "jest": "^29.7.0"
-  }
+    "name": "json2ts",
+    "private": true,
+    "version": "0.0.0-beta",
+    "type": "module",
+    "engines": {
+        "node": ">= 16.15.0"
+    },
+    "scripts": {
+        "example": "ts-node --esm src/example.ts"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.2.2"
+    }
 }

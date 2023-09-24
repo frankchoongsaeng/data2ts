@@ -173,8 +173,7 @@ const json = {
         {
             id: 29,
             todo: 'Make own LEGO creation',
-            completed: false,
-            userId: 30
+            completed: false
         },
         {
             id: 30,
@@ -188,4 +187,8 @@ const json = {
     limit: 30
 }
 
-extractTypes(JSON.stringify(json))
+const doc = extractTypes(JSON.stringify(json))
+
+console.log("\n\n")
+
+console.log(doc)

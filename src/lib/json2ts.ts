@@ -10,15 +10,15 @@ import {
     numberType,
     bigIntType,
     Field
-} from './AST.ts'
+} from './ast.ts'
+import { prettyPrintType } from './prettyprinter.ts'
 
 /** Takes a json content and understands the fields and its types.
  * The reason we recieve a string is to prevent trying to extract types from circular or non-serializable objects.
  * */
 export function extractTypes(json: string): string {
     const struct = extractTypesHelper(JSON.parse(json))
-    console.log(struct.toString())
-    return json
+    return prettyPrintType(struct, 0)
 }
 
 function extractTypesHelper(json: any): Type {
@@ -47,11 +47,8 @@ function extractTypesHelper(json: any): Type {
 
         // unsupported data types
         case 'symbol':
-            throw Error(`Unsupported Type!!! ${typeof json}`)
         case 'function':
-            throw Error(`Unsupported Type!!! ${typeof json}`)
         case 'undefined':
-            throw Error(`Unsupported Type!!! ${typeof json}`)
         default:
             throw Error(`Unsupported Type!!! ${typeof json}`)
     }
