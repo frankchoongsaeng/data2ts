@@ -195,9 +195,10 @@ const json2 = {
 
 const doc = json2ts(JSON.stringify(json))
 
-// from: unit -> string
+// from: unit -> string 
 // const fromRes = json2ts(JSON.stringify(json))
 // const fromRes = json2ts.fromRes(() => {
 //     return JSON.stringify(json)
 // })
+ 
 console.log(doc)
