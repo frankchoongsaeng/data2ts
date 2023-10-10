@@ -9,20 +9,22 @@ import {
     boolType,
     numberType,
     bigIntType,
-    Field
-} from './ast.ts'
-import { prettyPrintType } from './prettyprinter.ts'
+    Field,
+    nullType,
+    dictType
+} from './ast'
+import { prettyPrintType } from './prettyprinter'
 
 /** Takes a json content and understands the fields and its types.
  * The reason we recieve a string is to prevent trying to extract types from circular or non-serializable objects.
  * */
-export function extractTypes(json: string): string {
+export default function json2ts(json: string): string {
     const struct = extractTypesHelper(JSON.parse(json))
     return prettyPrintType(struct, 0)
 }
 
-function extractTypesHelper(json: any): Type {
-    if (json === null) return nullableType(unknownType)
+export function extractTypesHelper(json: any): Type {
+    if (json === null) return nullType
 
     switch (typeof json) {
         case 'object':
@@ -32,7 +34,7 @@ function extractTypesHelper(json: any): Type {
                 return tupleNTypeType(json.map(extractTypesHelper)).narrow()
             } else {
                 // empty object is treated like an empty record
-                if (!hasValues(json)) return recordType([])
+                if (!hasValues(json)) return dictType(unknownType)
                 const fields = toFields(json)
                 return recordType(fields).narrow()
             }
@@ -54,6 +56,12 @@ function extractTypesHelper(json: any): Type {
     }
 }
 
+
+/**
+ * Checks if an array or object is empty.
+ * @param input 
+ * @returns boolean
+ */
 function hasValues<T>(input: Array<T> | object): boolean {
     if (Array.isArray(input)) return input.length > 0
     else
@@ -76,3 +84,4 @@ function toFields(json: object): Field[] {
         .map(field => [field, extractTypesHelper(_j[field])])
     return fields
 }
+

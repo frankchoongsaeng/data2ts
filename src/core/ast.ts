@@ -1,6 +1,17 @@
-interface Mappable {
-    // TODO consider mutating this type to avoid fresh object creation
-    mapType(fn: (p: Type) => Type): Type
+export class Def {
+    constructor(public name: string) {}
+}
+
+export class TypeAlias extends Def {
+    constructor(name: string, public tpe: Type) {
+        super(name)
+    }
+}
+
+export class InterfaceDef extends Def {
+    constructor(name: string, public fields: Array<[string, Type]>) {
+        super(name)
+    }
 }
 
 export abstract class Type {
@@ -102,7 +113,7 @@ export class UnionType extends Type {
         return this.tpesStr
     }
 }
-const unionType = (tpes: Array<Type>) => new UnionType(tpes)
+export const unionType = (tpes: Array<Type>) => new UnionType(tpes)
 
 export class UndefinedType extends Type {
     constructor() {
@@ -163,6 +174,8 @@ export class TupleNType extends Type {
             if (prevType instanceof RecordType && tpe instanceof RecordType) {
                 if (mergedWiderRecord === undefined) mergedWiderRecord = prevType.merge(tpe)
                 else mergedWiderRecord = mergedWiderRecord.merge(tpe)
+            } else if (prevType instanceof RecordType && tpe instanceof DictType) {
+                isUniform = true
             } else isUniform = tpe.equalsStruct(prevType)
 
             prevType = tpe

@@ -1,4 +1,4 @@
-import { extractTypes } from './lib/json2ts.ts'
+import json2ts from './core'
 
 const json = {
     todos: [
@@ -187,8 +187,17 @@ const json = {
     limit: 30
 }
 
-const doc = extractTypes(JSON.stringify(json))
+const json2 = {
+    apple: { quantity: 10, price: 30, category: 'food' },
+    bread: { quantity: 5, price: 50, category: 'food' },
+    internet: { price: 10, category: 'misc' }
+}
 
-console.log("\n\n")
+const doc = json2ts(JSON.stringify(json))
 
+// from: unit -> string
+// const fromRes = json2ts(JSON.stringify(json))
+// const fromRes = json2ts.fromRes(() => {
+//     return JSON.stringify(json)
+// })
 console.log(doc)

@@ -4,7 +4,6 @@ import {
     BoolType,
     DictType,
     NeverType,
-    NullableType,
     NumberType,
     RecordType,
     StringType,
@@ -12,11 +11,10 @@ import {
     Type,
     UnknownType,
     Field,
-    OptionalType,
     UnionType,
     NullType,
     UndefinedType
-} from './ast.ts'
+} from './ast'
 
 type Doc = string
 

@@ -1,6 +1,30 @@
 # Introduction
 
 This is a tool that ought to encourage encoding and decoding of data in Typescript by auto generating types from json, and encoders and decoders for those types.
+
+Simply put, if we have this json.
+
+```json
+{
+    "signals": [{ "action": 1 }, { "action": null }, { "action": 1, "expectedResType": 2 }],
+    "sender": "mxvd"
+}
+```
+
+We want to produce
+
+```typescript
+type Root = {
+    signals: Array<{
+        action: number | null
+        expectedResType: number | undefined
+    }>
+    sender: string
+}
+function encodeRoot(r: Root): string
+function decodeRoot(json: string): Root
+```
+
 The tool would be in 3 parts:
 
 1. TS types generator from json.
@@ -83,7 +107,7 @@ The tooling would first assume that "signals" is an tuple. Here's what that look
 ```typescript
 interface Root {
     signals: [{ action: number }, { action: unknown | null }, { action: number; expectedResType: number }]
-    root: string
+    sender: string
 }
 ```
 
@@ -92,7 +116,7 @@ The it applies another step that narrows the tuple to an `Array<T>`
 ```typescript
 interface Root {
     signals: Array<{ action: number | null; expectedResType: number | undefined }>
-    root: string
+    sender: string
 }
 ```
 
