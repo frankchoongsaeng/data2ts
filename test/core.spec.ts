@@ -1,4 +1,4 @@
-import { extractTypesHelper as e } from '../src/core'
+import { extractTypes as e } from '../src/core'
 import * as ast from '../src/core/ast'
 
 const json = JSON.stringify
@@ -159,7 +159,7 @@ describe('json2ts core - extractTypesHelper', () => {
         )
     })
 
-    test('array of record with optional nullable fields', () => {
+    test('array of record with optional nullable fields 2', () => {
         expect(e([{ name: 'John', age: 23, }, { name: 'Jane', age: null }, { name: 'Johnson' }]).toString()).toBe(
             ast
                 .arrayType(

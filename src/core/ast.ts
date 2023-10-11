@@ -149,6 +149,9 @@ export class ArrayType extends Type {
         if (this.tpeStr === undefined) this.tpeStr = this.tpe.toString()
         return `ArrayType<${this.tpe.toString()}>`
     }
+    narrow(): Type {
+        return arrayType(this.tpe.narrow())
+    }
 }
 export const arrayType = (tpe: Type) => new ArrayType(tpe)
 
@@ -189,6 +192,9 @@ export const tupleNTypeType = (tpes: Array<Type>) => new TupleNType(tpes)
 export class DictType extends Type {
     constructor(public tpe: Type) {
         super()
+    }
+    narrow(): Type {
+        return dictType(this.tpe.narrow())
     }
     tpeStr?: string
     toString(): string {

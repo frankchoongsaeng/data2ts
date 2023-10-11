@@ -19,8 +19,12 @@ import { prettyPrintType } from './prettyprinter'
  * The reason we recieve a string is to prevent trying to extract types from circular or non-serializable objects.
  * */
 export default function json2ts(json: string): string {
-    const struct = extractTypesHelper(JSON.parse(json))
-    return prettyPrintType(struct, 0)
+    const tpe = extractTypes(JSON.parse(json))
+    return prettyPrintType(tpe, 0)
+}
+
+export function extractTypes(json: any): Type {
+    return extractTypesHelper(json).narrow()
 }
 
 export function extractTypesHelper(json: any): Type {
@@ -31,12 +35,12 @@ export function extractTypesHelper(json: any): Type {
             if (Array.isArray(json)) {
                 // can't tell the type of the elements
                 if (!hasValues(json)) return arrayType(unknownType)
-                return tupleNTypeType(json.map(extractTypesHelper)).narrow()
+                return tupleNTypeType(json.map(extractTypesHelper))
             } else {
                 // empty object is treated like an empty record
                 if (!hasValues(json)) return dictType(unknownType)
                 const fields = toFields(json)
-                return recordType(fields).narrow()
+                return recordType(fields)
             }
         case 'string':
             return stringType
@@ -56,10 +60,9 @@ export function extractTypesHelper(json: any): Type {
     }
 }
 
-
 /**
  * Checks if an array or object is empty.
- * @param input 
+ * @param input
  * @returns boolean
  */
 function hasValues<T>(input: Array<T> | object): boolean {
@@ -84,4 +87,3 @@ function toFields(json: object): Field[] {
         .map(field => [field, extractTypesHelper(_j[field])])
     return fields
 }
-

@@ -124,7 +124,6 @@ interface Root {
 
 ... coming next
 
-
 ## Contribution
 
 clone and run the example with `npx ts-node src/example.ts`
